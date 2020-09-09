@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { Item } from "./Item"
+import { Person } from "./Person";
 
 function App() {
+  const validatorsSubjects = {
+    person: "Person",
+    item: "Item",
+  };
+  const validators = {};
+  const registerValidation = (subject, validator) => {
+    console.log("register: " + subject);
+    validators[subject] = validator;
+  };
+
+  const submit = function () {
+    alert("All valid! Submiting...");
+  };
+
+  const handleSubmit = function () {
+    if (validators[validatorsSubjects.person]()) {      
+      if (validators[validatorsSubjects.item]()) {
+        submit();
+      }
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Person registerValidation={registerValidation} />
+      <Item registerValidation={registerValidation} />
+      <div>
+        <h5>Parent</h5>
+        <button onClick={handleSubmit}>Submit</button>
+      </div>
     </div>
   );
 }
-
 export default App;
