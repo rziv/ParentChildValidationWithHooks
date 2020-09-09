@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 export const Person = function ({ registerValidation }) {
   const [firstName, setFirstName] = useState("");
-  const [age, setAge] = useState();
+  const [age, setAge] = useState("");
 
   const validate = function () {
     console.log("validating person...");

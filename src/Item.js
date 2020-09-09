@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 export const Item = function ({ registerValidation }) {
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState("");
 
   const validate = function () {
     console.log("validating item...");
