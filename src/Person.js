@@ -4,7 +4,7 @@ export const Person = function ({ registerValidation }) {
   const [firstName, setFirstName] = useState("");
   const [age, setAge] = useState("");
 
-  const validate = function () {
+  const validate = async function () {
     console.log("validating person...");
     console.log("firstName: " + firstName);
     console.log("age: " + age);

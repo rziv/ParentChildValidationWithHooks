@@ -1,26 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
-import { Item } from "./Item"
+import { Item } from "./Item";
 import { Person } from "./Person";
+const validators = {};
 
 function App() {
   const validatorsSubjects = {
     person: "Person",
     item: "Item",
   };
-  const validators = {};
-  const registerValidation = (subject, validator) => {
-    console.log("register: " + subject);
-    validators[subject] = validator;
+  const [showItem, setShowItem] = useState(true);  
+  const registerValidation = (subject, validator) => {    
+    
+    validators[subject] = validator;  
+   
   };
 
   const submit = function () {
     alert("All valid! Submiting...");
   };
 
-  const handleSubmit = function () {
-    if (validators[validatorsSubjects.person]()) {      
-      if (validators[validatorsSubjects.item]()) {
+  const handleSubmit = async function () {
+    if (await validators[validatorsSubjects.person]()) {
+      if (await validators[validatorsSubjects.item]()) {
         submit();
       }
     }
@@ -28,8 +30,18 @@ function App() {
 
   return (
     <div className="app">
+      <div>
+        <label htmlFor="showItem">Show Item</label>
+        <input
+          id="showItem"
+          type="checkbox"
+          checked={showItem}
+          onChange={(event) => setShowItem(event.target.checked)}
+        />
+      </div>
+
       <Person registerValidation={registerValidation} />
-      <Item registerValidation={registerValidation} />
+      {showItem && <Item registerValidation={registerValidation} />}
       <div>
         <h5>Parent</h5>
         <button onClick={handleSubmit}>Submit</button>

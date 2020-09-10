@@ -4,7 +4,7 @@ export const Item = function ({ registerValidation }) {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
 
-  const validate = function () {
+  const validate = async function () {
     console.log("validating item...");
     console.log("description: " + description);
     console.log("price: " + price);
