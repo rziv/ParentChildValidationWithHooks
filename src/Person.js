@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { subjects } from "./subjects";
+export const Person = function ({
+  registerValidation,
+  registerData,
+  dataFetcher,
+}) {
+  const registeredData = dataFetcher();
 
-export const Person = function ({ registerValidation }) {
-  const [firstName, setFirstName] = useState("");
-  const [age, setAge] = useState("");
+  const [firstName, setFirstName] = useState(registeredData.firstName || "");
+  const [age, setAge] = useState(registeredData.age || "");
 
   const validate = async function () {
     console.log("validating person...");
@@ -20,15 +26,20 @@ export const Person = function ({ registerValidation }) {
     return valid;
   };
 
+  const getData = () => ({ age, firstName });
+
   const registerCurrentValidation = registerValidation.bind(
     null,
-    "Person",
+    subjects.person,
     validate
   );
 
+  const registerCurrentData = registerData.bind(null, subjects.person, getData);
+
   useEffect(() => {
+    registerCurrentData();
     registerCurrentValidation();
-  }, [registerCurrentValidation]);
+  }, [registerCurrentData, registerCurrentValidation]);
 
   return (
     <div>
@@ -44,7 +55,7 @@ export const Person = function ({ registerValidation }) {
           onChange={(e) => setFirstName(e.target.value)}
         />
       </div>
-      <div>        
+      <div>
         <label htmlFor="age">Age</label>
         <input
           id="age"

@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { subjects } from "./subjects";
 
-export const Item = function ({ registerValidation }) {
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
+export const Item = function ({
+  registerValidation,
+  registerData,
+  dataFetcher,
+}) {
+  const registeredData = dataFetcher();
+
+  const [description, setDescription] = useState(
+    registeredData.description || ""
+  );
+  const [price, setPrice] = useState(registeredData.price || "");
 
   const validate = async function () {
     console.log("validating item...");
@@ -20,15 +29,20 @@ export const Item = function ({ registerValidation }) {
     return valid;
   };
 
+  const getData = () => ({ description, price });
+
   const registerCurrentValidation = registerValidation.bind(
     null,
-    "Item",
+    subjects.item,
     validate
   );
 
+  const registerCurrentData = registerData.bind(null, subjects.item, getData);
+
   useEffect(() => {
+    registerCurrentData();
     registerCurrentValidation();
-  }, [registerCurrentValidation]);
+  }, [registerCurrentData, registerCurrentValidation]);
 
   return (
     <div>
